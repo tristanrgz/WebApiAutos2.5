@@ -10,6 +10,7 @@ namespace WebApiAutos2._5.Controllers
 {
     [ApiController]
     [Route("autos")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdministrador")]
     public class AutosController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
@@ -21,7 +22,11 @@ namespace WebApiAutos2._5.Controllers
             this.mapper = mapper;
             this.configuration = configuration;
         }
+        
+       
+
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<List<GetAutoDto>>> Get()
         {
             var autos = await dbContext.Autos.ToListAsync();
